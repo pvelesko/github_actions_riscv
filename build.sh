@@ -4,24 +4,36 @@
 WORKSPACE=$(pwd)
 
 # Clone repositories
-git clone https://github.com/dkurt/runner.git --branch origin/dkurt/riscv64_runner
+git clone https://github.com/dkurt/runner.git --branch dkurt/riscv64_runner
 
 # Download .NET
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/dotnet-sdk-8.0.101-linux-riscv64.tar.gz
+if [ ! -f dotnet-sdk-8.0.101-linux-riscv64.tar.gz ]; then
+    wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/dotnet-sdk-8.0.101-linux-riscv64.tar.gz
+fi
 mkdir $WORKSPACE/packages
 cd $WORKSPACE/packages
 
 # Download packages
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.8.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.8.symbols.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1.symbols.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.NETCore.App.Host.linux-riscv64.8.0.1.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.NETCore.App.Host.linux-riscv64.8.0.1.symbols.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.1.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.1.symbols.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1.nupkg
-wget https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1.symbols.nupkg
+packages=(
+    "Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.8.nupkg"
+    "Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.8.symbols.nupkg"
+    "Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1.nupkg"
+    "Microsoft.AspNetCore.App.Runtime.linux-riscv64.8.0.1.symbols.nupkg"
+    "Microsoft.NETCore.App.Host.linux-riscv64.8.0.1.nupkg"
+    "Microsoft.NETCore.App.Host.linux-riscv64.8.0.1.symbols.nupkg"
+    "Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.1.nupkg"
+    "Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1-servicing.23580.1.symbols.nupkg"
+    "Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1.nupkg"
+    "Microsoft.NETCore.App.Runtime.linux-riscv64.8.0.1.symbols.nupkg"
+)
+
+for package in "${packages[@]}"; do
+    if [ ! -f "$package" ]; then
+        wget "https://github.com/pvelesko/dotnet_riscv/releases/download/v8.0.101/$package"
+    else
+        echo "$package already exists, skipping download."
+    fi
+done
 
 # Prepare
 cd $WORKSPACE/runner
