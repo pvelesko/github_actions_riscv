@@ -4,7 +4,7 @@
 WORKSPACE=$(pwd)
 
 # Clone repositories
-git clone https://github.com/dkurt/runner.git --branch dkurt/riscv64_runner
+git clone https://github.com/pvelesko/github-runner.git ./runner --branch develop
 
 # Download .NET
 if [ ! -f dotnet-sdk-8.0.101-linux-riscv64.tar.gz ]; then
