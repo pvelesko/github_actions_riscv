@@ -10,7 +10,7 @@ jobs:
     - name: Clone repositories
       run: |
         rm -rf runner
-        git clone https://github.com/pvelesko/riscv-actions-runner.git runner --branch develop
+        git clone https://github.com/pvelesko/github-runner.git ./runner --branch develop
 
     - name: Download .NET
       run: |
